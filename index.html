@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="A tool for songwriters." />
+  <meta http-equiv="author" content="Jack Whitis" />
+  <title>Ghost Writer</title>
+
+  <!-- csss files -->
+  <link href="css/bootstrap.min.css" type="text/css" rel="stylessheet" />
+  <link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylessheet" />
+  <link href="css/styles.css" type="text/css" rel="stylesheet" />
+
+  <!-- js files -->
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+  $(document).ready(function() {
+
+// **************** write scale to page ***************
+
+    // change event on key select box
+    $(".scaleOptions").change(function() {
+
+      // fill variables with value of scale options
+      var userScale = findScaleFromSelection();
+
+      // clear contents of scale display
+      $(".degreeBox").html("");
+
+      // write chord names to scale display
+      for (var i = 0; i < userScale.length; i++) {
+        $("#degree" + (i + 1)).prepend("<a href='#' data-tonality=''>" + userScale[i] + "</a>");
+      };
+
+    }); // end change event
+
+// **************** add chord to progression array ***************
+
+    // create empty array
+    var progression = new Array();
+
+    // click event on chord name links
+    $("#scaleDisplay").on("click", "a", function() {
+
+      // fill variable with contents of link
+      var chord = $(this).text();
+
+      // push chord name into progression array
+      progression.push(chord);
+
+      writeProgression();
+
+    }); // end click event
+
+// **************** activate random chord button ***************
+
+  $("#random").click(function() {
+
+    findRandomPosition();
+
+  });
+
+// **************** scale object ***************
+
+    var scale = {
+      degrees: ["c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b"]
+    };
+
+    scale.findChromaticScale = function(key) {
+
+      // create empty scale array
+      var chromaticScale = new Array();
+
+      // fill variable with index position of key
+      for (var i = 0; i < this.degrees.length; i++) {
+        if (key == this.degrees[i]) {
+          var rootIndex = i;
+        };
+      };
+
+      // push succeeding degrees into chromatic scale array
+      for (var i = rootIndex; i < this.degrees.length; i++) {
+        chromaticScale.push(this.degrees[i]);
+      };
+
+      // push preceeding degrees into chromatic scale array
+      for (var i = 0; i < rootIndex; i++) {
+        chromaticScale.push(this.degrees[i]);
+      };
+
+      return chromaticScale;
+
+    }; // end findChromaticScale method
+
+    scale.findMajorScale = function(key) {
+
+      // fill variable with chromatic scale array
+      var chromaticScale = this.findChromaticScale(key);
+
+      // create empty scale array
+      var majorScale = new Array();
+
+      // push degrees into major scale array by interval
+      for (var i = 0; i < chromaticScale.length; i++) {
+        majorScale.push(chromaticScale[i]);
+        if (i !== 4) {
+          i++;
+        };
+      };
+
+      return majorScale;
+
+    }; // end findMajorScale method
+
+    scale.findMinorScale = function(key) {
+
+      // fill variable with chromatic scale array
+      var chromaticScale = this.findChromaticScale(key);
+
+      // create empty scale array
+      var minorScale = new Array();
+
+      // push degrees into minor scale array by interval
+      for (var i = 0; i < chromaticScale.length; i++) {
+        minorScale.push(chromaticScale[i]);
+        if (i !== 2 && i !== 7) {
+          i++;
+        };
+      };
+
+      return minorScale;
+
+    }; // end findMinorScale method
+
+    scale.findRelativeMajor = function(key) {
+
+      // fill variable with chromatic scale array
+      var chromaticScale = this.findChromaticScale(key);
+
+      // fill variable with relative major using fixed interval
+      var relativeMajor = chromaticScale[9];
+
+      return relativeMajor;
+
+    }; // end findRelativeMajor method
+
+// **************** chord object ***************
+
+    var chord = {
+      positions: [
+        {
+          name: "default",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "1",
+          tonality: "major",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "2",
+          tonality: "major",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "2",
+          tonality: "minor",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "3",
+          tonality: "major",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "3",
+          tonality: "minor",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "4",
+          tonality: "major",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "5",
+          tonality: "major",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "6",
+          tonality: "minor",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "7",
+          tonality: "flat",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        }, // end position object
+        {
+          name: "7",
+          tonality: "diminished",
+          nextProbability: {
+            oneMaj: .111,
+            twoMaj: .111,
+            twoMin: .111,
+            threeMaj: .111,
+            threeMin: .111,
+            fourMaj: .111,
+            fiveMaj: .111,
+            sixMin: .111,
+            sevenDim: .111
+          } // end nextProbability property
+        } // end position object
+      ] // end positions array
+    }; // end chord object
+
+// **************** find scale from selection ***************
+
+    function findScaleFromSelection() {
+
+      // fill variables with value of scale options
+      var key = $("#keySelect").val();
+      var tonality = $("#tonalitySelect").val();
+
+      // fill variable with correct scale array
+      if (tonality == "major") {
+        var userScale = scale.findMajorScale(key);
+      } else if (tonality == "minor") {
+        var userScale = scale.findMinorScale(key);
+      };
+
+      return userScale;
+
+    }; // end findScaleFromSelection function
+
+// **************** write progression to page ***************
+
+    function writeProgression() {
+
+      // clear contents of progression display
+      $(".chordBox").html("");
+
+      // write chord name to progression display
+      for (var i = 0; i < progression.length; i++) {
+        $("#chord" + (i + 1)).append("<a href='#'>" + progression[i] + "</a>");
+      };
+
+    }; // end writeProgression function
+
+// **************** generate random position ***************
+
+    function findRandomPosition() {
+
+      // fill variable with last chord name in progression array
+      if (progression.length == 0) {
+        var previousDegree = "default";
+      } else {
+        var previousDegree = progression[progression.length - 1];
+      };
+
+      // fill variable with position of previous chord
+      var previousPosition = findPositionFromDegree(previousDegree);
+
+      // create empty object
+      var probability = new Object();
+
+      // loop through positions array in chord object
+      for (var i = 0; i < chord.positions.length; i++) {
+
+        // fll object with probability pairs
+        if (previousPosition == chord.positions[i].name) {
+          probability = chord.positions[i].nextProbability;
+          console.log(probability);
+        };
+
+      }; // end for loop
+
+      // fill variable with random number
+      var random = Math.random();
+
+    }; // end findRandomPosition function
+
+// **************** find position from degree ***************
+
+    function findPositionFromDegree(degree) {
+
+      // determine if previous degree has been selected
+      if (degree == "default") {
+
+        // fill variable with "default"
+        var position = "default";
+
+      } else {
+
+        // fill variable with correct scale array
+        var userScale = findScaleFromSelection();
+
+        // fill variable with chord position
+        for (var i = 0; i < userScale.length; i++) {
+          if (degree == userScale[i]) {
+            var position = i + 1;
+          };
+        };
+
+      }; // end if statement
+
+      return position;
+
+    }; // end findPositionFromDegree function
+
+// **************** end script ***************
+
+  }); // end ready
+  </script>
+</head>
+<body>
+
+  <form>
+    <label for="keySelect">
+      Choose a key:
+    </label>
+    <select id="keySelect" class="scaleOptions" name="key">
+      <option>Choose One</option>
+      <option value="c">C</option>
+      <option value="c#">C#/Db</option>
+      <option value="d">D</option>
+      <option value="d#">D#/Eb</option>
+      <option value="e">E</option>
+      <option value="f">F</option>
+      <option value="f#">F#/Gb</option>
+      <option value="g">G</option>
+      <option value="g#">G#/Ab</option>
+      <option value="a">A</option>
+      <option value="a#">A#/Bb</option>
+      <option value="b">B</option>
+    </select>
+    <br />
+    <label for="tonalitySelect">
+      Choose a tonality:
+    </label>
+    <select id="tonalitySelect" class="scaleOptions" name="tonality">
+      <option value="major">Major</option>
+      <option value="minor">Minor</option>
+    </select>
+    <br />
+  </form>
+  <div>
+    <button id="random">Random</button>
+  </div>
+
+  <br />
+
+  <div id="scaleDisplay">
+    <div id="degree1" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+    <div id="degree2" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+    <div id="degree3" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+    <div id="degree4" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+    <div id="degree5" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+    <div id="degree6" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+    <div id="degree7" class="degreeBox"></div>
+    <button class="tonalityToggle">Tonality</button>
+  </div><!-- end #scaleDisplay -->
+
+  <br />
+
+  <div id="progressionDisplay">
+    <div id="chord1" class="chordBox"></div>
+    <div id="chord2" class="chordBox"></div>
+    <div id="chord3" class="chordBox"></div>
+    <div id="chord4" class="chordBox"></div>
+  </div>
+
+</body>
+</html>

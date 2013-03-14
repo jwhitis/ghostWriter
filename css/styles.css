@@ -1,0 +1,13 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+div.chordBox {
+  width: 50px;
+  display: inline-block;
+}
+
+div#scaleDisplay a, div#progressionDisplay a {
+  text-decoration: none;
+  text-transform: uppercase;
+}
