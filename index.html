@@ -18,50 +18,6 @@
   <script type="text/javascript">
   $(document).ready(function() {
 
-// **************** write scale to page ***************
-
-    // change event on key select box
-    $(".scaleOptions").change(function() {
-
-      // fill variables with value of scale options
-      var userScale = findScaleFromSelection();
-
-      // clear contents of scale display
-      $(".degreeBox").html("");
-
-      // write chord names to scale display
-      for (var i = 0; i < userScale.length; i++) {
-        $("#degree" + (i + 1)).prepend("<a href='#' data-tonality=''>" + userScale[i] + "</a>");
-      };
-
-    }); // end change event
-
-// **************** add chord to progression array ***************
-
-    // create empty array
-    var progression = new Array();
-
-    // click event on chord name links
-    $("#scaleDisplay").on("click", "a", function() {
-
-      // fill variable with contents of link
-      var chord = $(this).text();
-
-      // push chord name into progression array
-      progression.push(chord);
-
-      writeProgression();
-
-    }); // end click event
-
-// **************** activate random chord button ***************
-
-  $("#random").click(function() {
-
-    findRandomPosition();
-
-  });
-
 // **************** scale object ***************
 
     var scale = {
@@ -146,176 +102,276 @@
 
     }; // end findRelativeMajor method
 
-// **************** chord object ***************
+// **************** chord positions array ***************
 
-    var chord = {
-      positions: [
+    var chordPositions = [
         {
           name: "default",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "1",
           tonality: "major",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "2",
           tonality: "major",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "2",
           tonality: "minor",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "3",
           tonality: "major",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "3",
           tonality: "minor",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "4",
           tonality: "major",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "5",
           tonality: "major",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "6",
           tonality: "minor",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "7",
           tonality: "flat",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        }, // end position object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        },
         {
           name: "7",
           tonality: "diminished",
-          nextProbability: {
-            oneMaj: .111,
-            twoMaj: .111,
-            twoMin: .111,
-            threeMaj: .111,
-            threeMin: .111,
-            fourMaj: .111,
-            fiveMaj: .111,
-            sixMin: .111,
-            sevenDim: .111
-          } // end nextProbability property
-        } // end position object
-      ] // end positions array
-    }; // end chord object
+          nextProbability: [
+            {name: "1", tonality: "major", probability: .100},
+            {name: "2", tonality: "major", probability: .100},
+            {name: "2", tonality: "minor", probability: .100},
+            {name: "3", tonality: "major", probability: .100},
+            {name: "3", tonality: "minor", probability: .100},
+            {name: "4", tonality: "major", probability: .100},
+            {name: "5", tonality: "major", probability: .100},
+            {name: "6", tonality: "minor", probability: .100},
+            {name: "7", tonality: "flat", probability: .100},
+            {name: "7", tonality: "diminished", probability: .100}
+          ]
+        }
+      ]; // end chordPositions array
+
+// **************** write scale on page load ***************
+
+    // assign tonality to scale degrees
+    assignTonality();
+
+    // write scale to page
+    writeScale();
+
+// **************** update scale on select box change ***************
+
+    // change event on key select box
+    $(".scaleOptions").change(function() {
+
+      // assign tonality to scale degrees
+      assignTonality();
+
+      // write scale to page
+      writeScale();
+
+    }); // end change event
+
+// **************** assign tonality to scale degrees ***************
+
+    function assignTonality() {
+
+      // loop through boxes in scale display
+      $(".degreeBox").each(function() {
+
+        // fill variable with position of scale degree
+        var scaleDegree = $(this).attr("id").slice(6);
+
+        // fill variable with value of tonality select box
+        var tonality = $("#tonalitySelect").val();
+
+        // clear existing tonality classes
+        $(this).removeClass("major minor flat diminished");
+
+        // fill variable with correct scale array
+        if (tonality == "major") {
+          if (scaleDegree == 1 || scaleDegree == 4 || scaleDegree == 5 ) {
+            $(this).addClass("major");
+          } else if (scaleDegree == 2 || scaleDegree == 3 || scaleDegree == 6 ) {
+            $(this).addClass("minor");
+          } else {
+            $(this).addClass("diminished");
+          };
+        } else if (tonality == "minor") {
+          if (scaleDegree == 3 || scaleDegree == 6 || scaleDegree == 7 ) {
+            $(this).addClass("major");
+          } else if (scaleDegree == 1 || scaleDegree == 4 || scaleDegree == 5 ) {
+            $(this).addClass("minor");
+          } else {
+            $(this).addClass("diminished");
+          };
+        };
+
+      }); // end each event
+
+    }; // end assignTonality function
+
+// **************** write scale to page ***************
+
+    function writeScale() {
+
+      // fill variables with value of scale options
+      var userScale = findScaleFromSelection();
+
+      // clear contents of scale display
+      $(".degreeBox").text("");
+
+      // loop through degrees of user scale
+      for (var i = 0; i < userScale.length; i++) {
+
+        // fill variable with existing tonality class
+        if ($("#degree" + (i + 1)).hasClass("major")) {
+          var tonality = "Major";
+        } else if ($("#degree" + (i + 1)).hasClass("minor")) {
+          var tonality = "Minor";
+        } else if ($("#degree" + (i + 1)).hasClass("diminished")) {
+          var tonality = "Diminished";
+        } else {
+          var tonality = "Flat Major";
+        };
+
+        // write chord names to scale display
+        $("#degree" + (i + 1)).text(userScale[i] + " " + tonality);
+
+      }; // end for loop
+
+    }; // end writeScale function
 
 // **************** find scale from selection ***************
 
@@ -336,52 +392,158 @@
 
     }; // end findScaleFromSelection function
 
-// **************** write progression to page ***************
+// **************** toggle tonality of scale degrees ***************
 
-    function writeProgression() {
+    $(".tonalityToggle").click(function() {
 
-      // clear contents of progression display
-      $(".chordBox").html("");
-
-      // write chord name to progression display
-      for (var i = 0; i < progression.length; i++) {
-        $("#chord" + (i + 1)).append("<a href='#'>" + progression[i] + "</a>");
-      };
-
-    }; // end writeProgression function
-
-// **************** generate random position ***************
-
-    function findRandomPosition() {
-
-      // fill variable with last chord name in progression array
-      if (progression.length == 0) {
-        var previousDegree = "default";
+      // replace existing tonality class with alternative tonality class
+      if ($(this).prev().hasClass("major")) {
+        $(this).prev().removeClass("major").addClass("minor");
+      } else if ($(this).prev().hasClass("minor")) {
+        $(this).prev().removeClass("minor").addClass("major");
+      } else if ($(this).prev().hasClass("diminished")) {
+        $(this).prev().removeClass("diminished").addClass("flat");
       } else {
-        var previousDegree = progression[progression.length - 1];
+        $(this).prev().removeClass("flat").addClass("diminished");
       };
 
-      // fill variable with position of previous chord
+      // update scale on page
+      writeScale();
+
+    }); // end click event
+
+// **************** add chord to progression array ***************
+
+    // create empty array
+    var progression = new Array();
+
+    // define maximum number of chords in progression
+    var chordMax = 4;
+
+    // click event on scale display boxes
+    $("#scaleDisplay").on("click", ".degreeBox", function() {
+
+      // exit function if progression contains maximum number of chords
+      if (progression.length == chordMax) {
+        return;
+      };
+
+      // fill variable with contents of box
+      var chord = $(this).text();
+
+      // push chord name into progression array
+      progression.push(chord);
+
+      // write progression to page
+      writeProgression();
+
+    }); // end click event
+
+// **************** remove chord from progression array ***************
+
+    // click event on progression display boxes
+    $("#progressionDisplay").on("click", ".chordBox", function() {
+
+      // fill variable with index of chord in progression array
+      var chordIndex = $(this).attr("id").slice(5) - 1;
+
+      // remove chord name from progression array
+      progression.splice(chordIndex, 1);
+
+      // write progression to page
+      writeProgression();
+
+    }); // end click event
+
+// **************** activate random chord button ***************
+
+    $("#random").click(function() {
+      findRandomChord();
+    });
+
+// **************** generate random chord ***************
+
+    function findRandomChord() {
+
+      // determine if there are chords in progression array
+      if (progression.length == 0) { // if array is empty
+
+        // fill variable with "default" value
+        var previousDegree = "default";
+
+      } else { // if array contains chords
+
+        // fill variable with name of last chord in array
+        var previousChord = progression[progression.length - 1];
+
+        // fill variable with scale degree by removing tonality designation
+        var previousDegree = previousChord.slice(0, 2).replace(/\s/g, "");
+
+        // fill variable with tonality designation by removing scale degree
+        var previousTonality = previousChord.slice(2).replace(/s\s/g, "").toLowerCase();
+
+      }; // end if statement
+
+      // fill variable with position of previous degree
       var previousPosition = findPositionFromDegree(previousDegree);
 
-      // create empty object
-      var probability = new Object();
+      // loop through chord positions array
+      for (var i = 0; i < chordPositions.length; i++) {
 
-      // loop through positions array in chord object
-      for (var i = 0; i < chord.positions.length; i++) {
-
-        // fll object with probability pairs
-        if (previousPosition == chord.positions[i].name) {
-          probability = chord.positions[i].nextProbability;
-          console.log(probability);
+        // fill variable with next chord probability array
+        if (previousPosition == chordPositions[i].name && previousTonality == chordPositions[i].tonality) {
+          var nextProbability = chordPositions[i].nextProbability;
         };
 
       }; // end for loop
 
       // fill variable with random number
-      var random = Math.random();
+      var randomNumber = Math.random();
 
-    }; // end findRandomPosition function
+      // loop through objects in next chord probability array
+      for (var i = 0; i < nextProbability.length; i++) {
+
+        // initialize probability counters at 0
+        var lowerLimit = 0;
+        var upperLimit = 0;
+
+        // loop through objects with index less than "i"
+        for (var j = 0; j < (i + 1); j++) {
+
+          // assign lower probability limit
+          lowerLimit = upperLimit;
+
+          // increment upper probability limit
+          upperLimit += nextProbability[j].probability;
+
+        };
+
+        // determine if random number falls within probability range
+        if (randomNumber > lowerLimit && randomNumber < upperLimit) {
+
+          // fill variable with position of random chord
+          var randomPosition = nextProbability[i].name;
+
+          // fill variable with scale degree of random chord
+          var randomDegree = findDegreeFromPosition(randomPosition);
+
+          // fill variable with tonality of random chord
+          var randomTonality = nextProbability[i].tonality
+
+          // fill variable with chord name by combining scale degree and tonality
+          var randomChord = randomDegree + " " + randomTonality;
+
+          // add random chord to progression array
+          progression.push(randomChord);
+
+          // write progression to page
+          writeProgression();
+
+        }; // end if statement
+
+      }; // end for loop
+
+    }; // end findRandomChord function
 
 // **************** find position from degree ***************
 
@@ -411,6 +573,34 @@
 
     }; // end findPositionFromDegree function
 
+// **************** find degree from position ***************
+
+    function findDegreeFromPosition(position) {
+
+      // fill variable with correct scale array
+      var userScale = findScaleFromSelection();
+
+      // fill variable with scale degree
+      var degree = userScale[position - 1];
+
+      return degree;
+
+    }; // end findDegreeFromPosition function
+
+// **************** write progression to page ***************
+
+    function writeProgression() {
+
+      // clear contents of progression display
+      $(".chordBox").text("");
+
+      // write chord name to progression display
+      for (var i = 0; i < progression.length; i++) {
+        $("#chord" + (i + 1)).text(progression[i]);
+      };
+
+    }; // end writeProgression function
+
 // **************** end script ***************
 
   }); // end ready
@@ -423,8 +613,7 @@
       Choose a key:
     </label>
     <select id="keySelect" class="scaleOptions" name="key">
-      <option>Choose One</option>
-      <option value="c">C</option>
+      <option value="c" selected>C</option>
       <option value="c#">C#/Db</option>
       <option value="d">D</option>
       <option value="d#">D#/Eb</option>
@@ -442,7 +631,7 @@
       Choose a tonality:
     </label>
     <select id="tonalitySelect" class="scaleOptions" name="tonality">
-      <option value="major">Major</option>
+      <option value="major" selected>Major</option>
       <option value="minor">Minor</option>
     </select>
     <br />

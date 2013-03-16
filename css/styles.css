@@ -2,12 +2,14 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-div.chordBox {
-  width: 50px;
-  display: inline-block;
+div.degreeBox {
+  text-transform: capitalize;
+  cursor: pointer;
 }
 
-div#scaleDisplay a, div#progressionDisplay a {
-  text-decoration: none;
-  text-transform: uppercase;
+div.chordBox {
+  width: 100px;
+  display: inline-block;
+  text-transform: capitalize;
+  cursor: pointer;
 }
