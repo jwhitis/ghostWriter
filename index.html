@@ -457,13 +457,19 @@
 
 // **************** activate random chord button ***************
 
-    $("#random").click(function() {
-      findRandomChord();
-    });
+    $("#randomButton").click(function() {
 
-// **************** generate random chord ***************
+      // find next chord probability
+      var nextProbability = findNextProbability();
 
-    function findRandomChord() {
+      // generate random chord
+      findRandomChord(nextProbability);
+
+    }); // end click event
+
+// **************** find next chord probability ***************
+
+    function findNextProbability() {
 
       // determine if there are chords in progression array
       if (progression.length == 0) { // if array is empty
@@ -497,8 +503,18 @@
 
       }; // end for loop
 
+      return nextProbability;
+
+    }; // end findNextProbability function
+
+// **************** generate random chord ***************
+
+    function findRandomChord(nextProbability) {
+
       // fill variable with random number
       var randomNumber = Math.random();
+
+      console.log(randomNumber);
 
       // loop through objects in next chord probability array
       for (var i = 0; i < nextProbability.length; i++) {
@@ -601,6 +617,70 @@
 
     }; // end writeProgression function
 
+// **************** activate play audio button ***************
+
+    // create empty array
+    var playlist = new Array();
+
+    // click event on play audio button
+    $("#playButton").click(function() {
+
+      // update playlist array
+      updatePlaylist();
+
+      // play audio clips
+      playAudio();
+
+    }); // end click event
+
+// **************** loop play audio function ***************
+
+    $("#audioClip").on("ended", function() {
+      if (playlist.length !== 0) {
+        playAudio();
+      };
+    }); // end ended event
+
+// **************** update playlist ***************
+
+    function updatePlaylist() {
+
+      // loop through boxes in progression display
+      $(".chordBox").each(function() {
+
+        // fill variable with contents of chord box
+        var chordName = $(this).text().replace(/\s/g, "");
+
+        // add chord name to playlist array
+        if (chordName.length !== 0) {
+          playlist.push(chordName);
+        };
+
+      }); // end each method
+
+    }; // end updatePlaylist function
+
+// **************** play audio clip ***************
+
+    function playAudio() {
+
+      // confirm contents of playlist array
+      console.log("Playlist: " + playlist);
+
+      // fill variable with first chord in playlist
+      var nowPlaying = playlist.shift();
+
+      // replace source attribute of audio element
+      $("#audioClip").attr("src", "audio/" + nowPlaying + ".wav");
+
+      // fill variable with audio element
+      var audioClip = document.getElementById("audioClip");
+
+      // play audio clip
+      audioClip.play();
+
+    }; // end playAudio function
+
 // **************** end script ***************
 
   }); // end ready
@@ -637,7 +717,7 @@
     <br />
   </form>
   <div>
-    <button id="random">Random</button>
+    <button id="randomButton">Random</button>
   </div>
 
   <br />
@@ -667,6 +747,9 @@
     <div id="chord3" class="chordBox"></div>
     <div id="chord4" class="chordBox"></div>
   </div>
+
+  <button id="playButton">Play</button>
+  <audio id="audioClip" src=""></audio>
 
 </body>
 </html>
