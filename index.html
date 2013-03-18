@@ -58,13 +58,57 @@
       // create empty scale array
       var majorScale = new Array();
 
-      // push degrees into major scale array by interval
+      // loop through degrees in chromatic scale array
       for (var i = 0; i < chromaticScale.length; i++) {
+
+        // determine if major scale array is empty
+        if (majorScale.length == 0) {
+
+          // fill variable with accidental of tonic
+          var accidental = chromaticScale[i].slice(1);
+
+          // determine if tonic is sharp
+          if (accidental == "#") {
+
+            // fill variable with equivalent flat scale degree
+            var flat = chromaticScale[i + 1] + "b";
+
+            // make current scale degree flat
+            chromaticScale[i] = flat;
+
+          }; // end if statement
+
+        } else {
+
+          // fill variable with previous scale degree minus accidentals
+          var previousDegree = majorScale[majorScale.length - 1].slice(0, 1);
+
+          // fill variable with current scale degree minus accidentals
+          var currentDegree = chromaticScale[i].slice(0, 1);
+
+          // determine if previous degree and current degree are equal
+          if (previousDegree == currentDegree) {
+
+            // fill variable with equivalent flat scale degree
+            var flat = chromaticScale[i + 1] + "b";
+
+            // make current scale degree flat
+            chromaticScale[i] = flat;
+
+          }; // end if statement
+
+        }; // end if statement
+
+        // add scale degree to major scale array
         majorScale.push(chromaticScale[i]);
+
+        // increment counter again if current degree is not 4th degree in chromatic scale
+        // (This is what sets the scale intervals that define a major scale.)
         if (i !== 4) {
           i++;
         };
-      };
+
+      }; // end for loop
 
       return majorScale;
 
@@ -80,11 +124,17 @@
 
       // push degrees into minor scale array by interval
       for (var i = 0; i < chromaticScale.length; i++) {
+
+        // add scale degree to minor scale array
         minorScale.push(chromaticScale[i]);
+
+        // increment counter again if current degree is not 2nd or 7th degree in chromatic scale
+        // (This is what sets the scale intervals that define a minor scale.)
         if (i !== 2 && i !== 7) {
           i++;
         };
-      };
+
+      }; // end for loop
 
       return minorScale;
 
@@ -105,182 +155,182 @@
 // **************** chord positions array ***************
 
     var chordPositions = [
-        {
-          name: "default",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "1",
-          tonality: "major",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "2",
-          tonality: "major",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "2",
-          tonality: "minor",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "3",
-          tonality: "major",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "3",
-          tonality: "minor",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "4",
-          tonality: "major",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "5",
-          tonality: "major",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "6",
-          tonality: "minor",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "7",
-          tonality: "flat",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        },
-        {
-          name: "7",
-          tonality: "diminished",
-          nextProbability: [
-            {name: "1", tonality: "major", probability: .100},
-            {name: "2", tonality: "major", probability: .100},
-            {name: "2", tonality: "minor", probability: .100},
-            {name: "3", tonality: "major", probability: .100},
-            {name: "3", tonality: "minor", probability: .100},
-            {name: "4", tonality: "major", probability: .100},
-            {name: "5", tonality: "major", probability: .100},
-            {name: "6", tonality: "minor", probability: .100},
-            {name: "7", tonality: "flat", probability: .100},
-            {name: "7", tonality: "diminished", probability: .100}
-          ]
-        }
-      ]; // end chordPositions array
+      {
+        name: "default",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "1",
+        tonality: "major",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "2",
+        tonality: "major",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "2",
+        tonality: "minor",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "3",
+        tonality: "major",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "3",
+        tonality: "minor",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "4",
+        tonality: "major",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "5",
+        tonality: "major",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "6",
+        tonality: "minor",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "7",
+        tonality: "flat",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      },
+      {
+        name: "7",
+        tonality: "diminished",
+        nextProbability: [
+          {name: "1", tonality: "major", probability: .100},
+          {name: "2", tonality: "major", probability: .100},
+          {name: "2", tonality: "minor", probability: .100},
+          {name: "3", tonality: "major", probability: .100},
+          {name: "3", tonality: "minor", probability: .100},
+          {name: "4", tonality: "major", probability: .100},
+          {name: "5", tonality: "major", probability: .100},
+          {name: "6", tonality: "minor", probability: .100},
+          {name: "7", tonality: "flat", probability: .100},
+          {name: "7", tonality: "diminished", probability: .100}
+        ]
+      }
+    ]; // end chordPositions array
 
 // **************** write scale on page load ***************
 
@@ -544,7 +594,7 @@
           var randomDegree = findDegreeFromPosition(randomPosition);
 
           // fill variable with tonality of random chord
-          var randomTonality = nextProbability[i].tonality
+          var randomTonality = nextProbability[i].tonality;
 
           // fill variable with chord name by combining scale degree and tonality
           var randomChord = randomDegree + " " + randomTonality;
