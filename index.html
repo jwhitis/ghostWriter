@@ -80,10 +80,10 @@
 
         } else {
 
-          // fill variable with previous scale degree minus accidentals
+          // fill variable with previous scale degree minus accidental
           var previousDegree = majorScale[majorScale.length - 1].slice(0, 1);
 
-          // fill variable with current scale degree minus accidentals
+          // fill variable with current scale degree minus accidental
           var currentDegree = chromaticScale[i].slice(0, 1);
 
           // determine if previous degree and current degree are equal
@@ -102,8 +102,8 @@
         // add scale degree to major scale array
         majorScale.push(chromaticScale[i]);
 
-        // increment counter again if current degree is not 4th degree in chromatic scale
-        // (This is what sets the scale intervals that define a major scale.)
+        // increment counter again if current degree is not 4th degree in chromatic
+        // scale; this sets the scale intervals that define a major scale
         if (i !== 4) {
           i++;
         };
@@ -125,12 +125,14 @@
       // create empty scale array
       var minorScale = new Array();
 
-      // add succeeding degrees to minor scale array
+      // add succeeding degrees to minor scale array; the index
+      // number of the relative minor key within a major scale is 5
       for (var i = 5; i < majorScale.length; i++) {
         minorScale.push(majorScale[i]);
       };
 
-      // add preceeding degrees to minor scale array
+      // add preceeding degrees to minor scale array; the index
+      // number of the relative minor key within a major scale is 5
       for (var i = 0; i < 5; i++) {
         minorScale.push(majorScale[i]);
       };
@@ -144,7 +146,8 @@
       // fill variable with chromatic scale array
       var chromaticScale = this.findChromaticScale(key);
 
-      // fill variable with relative major using fixed interval
+      // fill variable with relative major key; the index number
+      // of the relative major key within a chromatic scale is 3
       var relativeMajor = chromaticScale[3];
 
       return relativeMajor;
@@ -368,7 +371,7 @@
         // clear existing tonality classes
         $(this).removeClass("major minor flat diminished");
 
-        // fill variable with correct scale array
+        // add correct tonality class to scale display box
         if (tonality == "major") {
           if (scaleDegree == 1 || scaleDegree == 4 || scaleDegree == 5 ) {
             $(this).addClass("major");
@@ -385,7 +388,7 @@
           } else {
             $(this).addClass("diminished");
           };
-        };
+        }; // end if statement
 
       }); // end each event
 
@@ -395,13 +398,10 @@
 
     function writeScale() {
 
-      // fill variables with value of scale options
+      // fill variable with selected scale array
       var userScale = findScaleFromSelection();
 
-      // clear contents of scale display
-      $(".degreeBox").text("");
-
-      // loop through degrees of user scale
+      // loop through degrees of user scale array
       for (var i = 0; i < userScale.length; i++) {
 
         // fill variable with existing tonality class
@@ -412,10 +412,11 @@
         } else if ($("#degree" + (i + 1)).hasClass("diminished")) {
           var tonality = "Diminished";
         } else {
-          var tonality = "Flat Major";
+          var tonality = "Flat";
         };
 
-        // write chord names to scale display
+        // write chord name to scale display box; overwrites
+        // current contents of scale display box
         $("#degree" + (i + 1)).text(userScale[i] + " " + tonality);
 
       }; // end for loop
@@ -430,7 +431,7 @@
       var key = $("#keySelect").val();
       var tonality = $("#tonalitySelect").val();
 
-      // fill variable with correct scale array
+      // fill variable with selected scale array
       if (tonality == "major") {
         var userScale = scale.findMajorScale(key);
       } else if (tonality == "minor") {
@@ -452,7 +453,7 @@
         $(this).prev().removeClass("minor").addClass("major");
       } else if ($(this).prev().hasClass("diminished")) {
         $(this).prev().removeClass("diminished").addClass("flat");
-      } else {
+      } else if ($(this).prev().hasClass("flat")) {
         $(this).prev().removeClass("flat").addClass("diminished");
       };
 
@@ -477,10 +478,10 @@
         return;
       };
 
-      // fill variable with contents of box
+      // fill variable with contents of progression display box
       var chord = $(this).text();
 
-      // push chord name into progression array
+      // add chord name to progression array
       progression.push(chord);
 
       // write progression to page
@@ -506,9 +507,10 @@
 
 // **************** activate random chord button ***************
 
+    // click event on generate random chord button
     $("#randomButton").click(function() {
 
-      // find next chord probability
+      // fill variable with next chord probability array
       var nextProbability = findNextProbability();
 
       // generate random chord
@@ -523,19 +525,19 @@
       // determine if there are chords in progression array
       if (progression.length == 0) { // if array is empty
 
-        // fill variable with "default" value
+        // fill variable with default value
         var previousDegree = "default";
 
       } else { // if array contains chords
 
-        // fill variable with name of last chord in array
+        // fill variable with last chord name in array
         var previousChord = progression[progression.length - 1];
 
         // fill variable with scale degree by removing tonality designation
         var previousDegree = previousChord.slice(0, 2).replace(/\s/g, "");
 
         // fill variable with tonality designation by removing scale degree
-        var previousTonality = previousChord.slice(2).replace(/s\s/g, "").toLowerCase();
+        var previousTonality = previousChord.slice(2).replace(/\s/g, "").toLowerCase();
 
       }; // end if statement
 
@@ -560,19 +562,25 @@
 
     function findRandomChord(nextProbability) {
 
-      // fill variable with random number
-      var randomNumber = Math.random();
+      // inititalize probability max counter at 0
+      var probabilityMax = 0;
 
-      console.log(randomNumber);
+      // add up probability values in next probability array
+      for (var i = 0; i < nextProbability.length; i++) {
+        probabilityMax += nextProbability[i].probability;
+      };
+
+      // fill variable with random number between 0 and probability max
+      var randomNumber = Math.random() * probabilityMax;
 
       // loop through objects in next chord probability array
       for (var i = 0; i < nextProbability.length; i++) {
 
-        // initialize probability counters at 0
+        // initialize probability limit counters at 0
         var lowerLimit = 0;
         var upperLimit = 0;
 
-        // loop through objects with index less than "i"
+        // loop through objects up through current object
         for (var j = 0; j < (i + 1); j++) {
 
           // assign lower probability limit
@@ -581,7 +589,7 @@
           // increment upper probability limit
           upperLimit += nextProbability[j].probability;
 
-        };
+        }; // end for loop
 
         // determine if random number falls within probability range
         if (randomNumber > lowerLimit && randomNumber < upperLimit) {
@@ -617,15 +625,15 @@
       // determine if previous degree has been selected
       if (degree == "default") {
 
-        // fill variable with "default"
+        // fill variable with default value
         var position = "default";
 
       } else {
 
-        // fill variable with correct scale array
-        var userScale = findScaleFromSelection();
+        // fill variable with equivalent major scale array
+        var userScale = findMajorScaleFromSelection();
 
-        // fill variable with chord position
+        // fill variable with correct chord position
         for (var i = 0; i < userScale.length; i++) {
           if (degree == userScale[i]) {
             var position = i + 1;
@@ -642,21 +650,53 @@
 
     function findDegreeFromPosition(position) {
 
-      // fill variable with correct scale array
-      var userScale = findScaleFromSelection();
+      // fill variable with equivalent major scale array
+      var userScale = findMajorScaleFromSelection();
 
-      // fill variable with scale degree
+      // fill variable with correct scale degree
       var degree = userScale[position - 1];
 
       return degree;
 
     }; // end findDegreeFromPosition function
 
+// **************** find major scale from selection ***************
+// only returns major scales; if minor tonality is selected, the relative
+// major scale is returned instead; used in generating random chords because
+// no next probability objects exist for minor scale positions
+
+    function findMajorScaleFromSelection() {
+
+      // fill variables with value of scale options
+      var key = $("#keySelect").val();
+      var tonality = $("#tonalitySelect").val();
+
+      // determine if scale tonality is major or minor
+      if (tonality == "major") {
+
+        // fill variable with major scale array
+        var userScale = scale.findMajorScale(key);
+
+      } else if (tonality == "minor") {
+
+        // fill variable with relative major key
+        var relativeMajor = scale.findRelativeMajor(key);
+
+        // fill variable with relative major scale array
+        var userScale = scale.findMajorScale(relativeMajor);
+
+      }; // end if statement
+
+      return userScale;
+
+    }; // end findMajorScaleFromSelection function
+
 // **************** write progression to page ***************
 
     function writeProgression() {
 
-      // clear contents of progression display
+      // clear contents of progression display; needed to remove
+      // chords that have been deleted from progression display
       $(".chordBox").text("");
 
       // write chord name to progression display
@@ -684,6 +724,7 @@
 
 // **************** loop play audio function ***************
 
+    // play next audio clip in playlst array once current clip has ended
     $("#audioClip").on("ended", function() {
       if (playlist.length !== 0) {
         playAudio();
@@ -713,13 +754,10 @@
 
     function playAudio() {
 
-      // confirm contents of playlist array
-      console.log("Playlist: " + playlist);
-
       // fill variable with first chord in playlist
       var nowPlaying = playlist.shift();
 
-      // replace source attribute of audio element
+      // replace source attribute of audio element with chord name
       $("#audioClip").attr("src", "audio/" + nowPlaying + ".wav");
 
       // fill variable with audio element
