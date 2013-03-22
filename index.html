@@ -7,8 +7,8 @@
   <title>Ghost Writer</title>
 
   <!-- csss files -->
-  <link href="css/bootstrap.min.css" type="text/css" rel="stylessheet" />
-  <link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylessheet" />
+  <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+  <link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
   <link href="css/styles.css" type="text/css" rel="stylesheet" />
 
   <!-- js files -->
@@ -169,7 +169,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -185,7 +185,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -201,7 +201,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -217,7 +217,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -233,7 +233,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -249,7 +249,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -265,7 +265,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -281,7 +281,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -297,7 +297,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
@@ -313,12 +313,12 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       },
       {
         name: "7",
-        tonality: "diminished",
+        tonality: "dim",
         nextProbability: [
           {name: "1", tonality: "major", probability: .100},
           {name: "2", tonality: "major", probability: .100},
@@ -329,7 +329,7 @@
           {name: "5", tonality: "major", probability: .100},
           {name: "6", tonality: "minor", probability: .100},
           {name: "7", tonality: "flat", probability: .100},
-          {name: "7", tonality: "diminished", probability: .100}
+          {name: "7", tonality: "dim", probability: .100}
         ]
       }
     ]; // end chordPositions array
@@ -369,7 +369,7 @@
         var tonality = $("#tonalitySelect").val();
 
         // clear existing tonality classes
-        $(this).removeClass("major minor flat diminished");
+        $(this).removeClass("major minor flat dim");
 
         // add correct tonality class to scale display box
         if (tonality == "major") {
@@ -378,7 +378,7 @@
           } else if (scaleDegree == 2 || scaleDegree == 3 || scaleDegree == 6 ) {
             $(this).addClass("minor");
           } else {
-            $(this).addClass("diminished");
+            $(this).addClass("dim");
           };
         } else if (tonality == "minor") {
           if (scaleDegree == 3 || scaleDegree == 6 || scaleDegree == 7 ) {
@@ -386,7 +386,7 @@
           } else if (scaleDegree == 1 || scaleDegree == 4 || scaleDegree == 5 ) {
             $(this).addClass("minor");
           } else {
-            $(this).addClass("diminished");
+            $(this).addClass("dim");
           };
         }; // end if statement
 
@@ -409,8 +409,8 @@
           var tonality = "Major";
         } else if ($("#degree" + (i + 1)).hasClass("minor")) {
           var tonality = "Minor";
-        } else if ($("#degree" + (i + 1)).hasClass("diminished")) {
-          var tonality = "Diminished";
+        } else if ($("#degree" + (i + 1)).hasClass("dim")) {
+          var tonality = "Dim";
         } else {
           var tonality = "Flat";
         };
@@ -451,10 +451,10 @@
         $(this).prev().removeClass("major").addClass("minor");
       } else if ($(this).prev().hasClass("minor")) {
         $(this).prev().removeClass("minor").addClass("major");
-      } else if ($(this).prev().hasClass("diminished")) {
-        $(this).prev().removeClass("diminished").addClass("flat");
+      } else if ($(this).prev().hasClass("dim")) {
+        $(this).prev().removeClass("dim").addClass("flat");
       } else if ($(this).prev().hasClass("flat")) {
-        $(this).prev().removeClass("flat").addClass("diminished");
+        $(this).prev().removeClass("flat").addClass("dim");
       };
 
       // update scale on page
@@ -775,9 +775,22 @@
 </head>
 <body>
 
+<div id="wrapper" class="container">
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <h1 id="title">Ghost Writer</h1>
+  </div>
+</header>
+
+<!-- PAGE CONTENT -->
+<div id="content">
+
+  <!-- SCALE OPTIONS -->
   <form>
-    <label for="keySelect">
-      Choose a key:
+    <label class="muted" for="keySelect">
+      Pick a Key
     </label>
     <select id="keySelect" class="scaleOptions" name="key">
       <option value="c" selected>C</option>
@@ -793,50 +806,77 @@
       <option value="a#">A#/Bb</option>
       <option value="b">B</option>
     </select>
-    <br />
-    <label for="tonalitySelect">
-      Choose a tonality:
+    <label class="muted" for="tonalitySelect">
+      Pick a Tonality
     </label>
     <select id="tonalitySelect" class="scaleOptions" name="tonality">
       <option value="major" selected>Major</option>
       <option value="minor">Minor</option>
     </select>
-    <br />
   </form>
-  <div>
-    <button id="randomButton">Random</button>
-  </div>
 
-  <br />
-
-  <div id="scaleDisplay">
-    <div id="degree1" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-    <div id="degree2" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-    <div id="degree3" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-    <div id="degree4" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-    <div id="degree5" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-    <div id="degree6" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-    <div id="degree7" class="degreeBox"></div>
-    <button class="tonalityToggle">Tonality</button>
-  </div><!-- end #scaleDisplay -->
-
-  <br />
-
+  <!-- PROGRESSION DISPLAY -->
   <div id="progressionDisplay">
+    <div id="audioBox">
+      <img id="playButton" src="img/play.png" />
+      <audio id="audioClip" src=""></audio>
+    </div>
     <div id="chord1" class="chordBox"></div>
     <div id="chord2" class="chordBox"></div>
     <div id="chord3" class="chordBox"></div>
     <div id="chord4" class="chordBox"></div>
   </div>
 
-  <button id="playButton">Play</button>
-  <audio id="audioClip" src=""></audio>
+  <!-- SCALE DISPLAY -->
+  <div id="scaleDisplay">
+    <div id="oddDegreeRow">
+      <div class="scaleBox">
+        <div id="degree1" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+      <div class="scaleBox">
+        <div id="degree3" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+      <div class="scaleBox">
+        <div id="degree5" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+      <div class="scaleBox">
+        <div id="degree7" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+    </div><!-- end #oddDegreeRow -->
+    <div id="evenDegreeRow">
+      <div class="scaleBox">
+        <div id="degree2" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+      <div class="scaleBox">
+        <div id="degree4" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+      <div class="scaleBox">
+        <div id="degree6" class="degreeBox"></div>
+        <i class="icon-wrench tonalityToggle"></i>
+      </div>
+    </div><!-- even #oddDegreeRow -->
+  </div><!-- end #scaleDisplay -->
+
+  <!-- RANDOM CHORD BUTTON -->
+  <button id="randomButton" class="btn btn-large btn-inverse">I'm Feeling Lucky</button>
+
+</div><!-- end #content -->
+<div id="gradient"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p id="byline" class="muted">&copy; 2013 Jack Whitis</p>
+  </div>
+</footer>
+
+</div><!-- end #wrapper -->
 
 </body>
 </html>
