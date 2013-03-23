@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A tool for songwriters." />
   <meta http-equiv="author" content="Jack Whitis" />
   <title>Ghost Writer</title>
@@ -9,9 +10,11 @@
   <!-- csss files -->
   <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
   <link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Rokkitt" type="text/css" rel="stylesheet" />
   <link href="css/styles.css" type="text/css" rel="stylesheet" />
 
   <!-- js files -->
+  <script src="backlift-reloader.js"></script>
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
 
@@ -447,14 +450,14 @@
     $(".tonalityToggle").click(function() {
 
       // replace existing tonality class with alternative tonality class
-      if ($(this).prev().hasClass("major")) {
-        $(this).prev().removeClass("major").addClass("minor");
-      } else if ($(this).prev().hasClass("minor")) {
-        $(this).prev().removeClass("minor").addClass("major");
-      } else if ($(this).prev().hasClass("dim")) {
-        $(this).prev().removeClass("dim").addClass("flat");
-      } else if ($(this).prev().hasClass("flat")) {
-        $(this).prev().removeClass("flat").addClass("dim");
+      if ($(this).siblings().hasClass("major")) {
+        $(this).siblings().removeClass("major").addClass("minor");
+      } else if ($(this).siblings().hasClass("minor")) {
+        $(this).siblings().removeClass("minor").addClass("major");
+      } else if ($(this).siblings().hasClass("dim")) {
+        $(this).siblings().removeClass("dim").addClass("flat");
+      } else if ($(this).siblings().hasClass("flat")) {
+        $(this).siblings().removeClass("flat").addClass("dim");
       };
 
       // update scale on page
@@ -739,11 +742,14 @@
       $(".chordBox").each(function() {
 
         // fill variable with contents of chord box
-        var chordName = $(this).text().replace(/\s/g, "");
+        var chordName = $(this).text();
 
-        // add chord name to playlist array
-        if (chordName.length !== 0) {
-          playlist.push(chordName);
+        // fill variable with file name of audio clip
+        var fileName = chordName.replace(/\s/g, "") + ".wav";
+
+        // add file name to playlist array
+        if (fileName.length !== 0) {
+          playlist.push(fileName);
         };
 
       }); // end each method
@@ -754,11 +760,11 @@
 
     function playAudio() {
 
-      // fill variable with first chord in playlist
+      // fill variable with first file name in playlist
       var nowPlaying = playlist.shift();
 
-      // replace source attribute of audio element with chord name
-      $("#audioClip").attr("src", "audio/" + nowPlaying + ".wav");
+      // replace source attribute of audio element with file name
+      $("#audioClip").attr("src", "audio/" + nowPlaying);
 
       // fill variable with audio element
       var audioClip = document.getElementById("audioClip");
@@ -767,6 +773,43 @@
       audioClip.play();
 
     }; // end playAudio function
+
+// **************** initialize scale options popovers ***************
+
+    // scale options information
+    $("label").popover({
+      html: true,
+      placement: "bottom",
+      trigger: "hover"
+    });
+
+// **************** initialize chord chart modal ***************
+
+    // set chord chart modal options
+    $('#chordChartModal').modal({
+      backdrop: false,
+      show: false
+    });
+
+    // click event on chord chart icons
+    $(".chordChartIcon").click(function() {
+
+      // fill variable with contents of adjacent degree box
+      var chordName = $(this).siblings(".degreeBox").text();
+
+      // insert chord name into chord chart modal header
+      $("#chordChartTitle").text(chordName);
+
+      // fill variable with file name of chord chart image
+      var fileName = chordName.replace(/\s/g, "") + ".png";
+
+      // replace source attribute of chord chart image with chord name
+      $("#chordChartImage").attr("src", "img/charts/" + fileName);
+
+      // show chord chart modal
+      $("#chordChartModal").modal('show');
+
+    });
 
 // **************** end script ***************
 
@@ -789,7 +832,7 @@
 
   <!-- SCALE OPTIONS -->
   <form>
-    <label class="muted" for="keySelect">
+    <label for="keySelect" data-content="The <em>key</em>, or <em>tonic</em> is the musical pitch around which a scale is based.">
       Pick a Key
     </label>
     <select id="keySelect" class="scaleOptions" name="key">
@@ -806,7 +849,7 @@
       <option value="a#">A#/Bb</option>
       <option value="b">B</option>
     </select>
-    <label class="muted" for="tonalitySelect">
+    <label for="tonalitySelect" data-content="<em>Tonality</em> refers to the pitch relationship between successive notes in a scale.">
       Pick a Tonality
     </label>
     <select id="tonalitySelect" class="scaleOptions" name="tonality">
@@ -818,7 +861,7 @@
   <!-- PROGRESSION DISPLAY -->
   <div id="progressionDisplay">
     <div id="audioBox">
-      <img id="playButton" src="img/play.png" />
+      <img id="playButton" src="img/silver_play.png" />
       <audio id="audioClip" src=""></audio>
     </div>
     <div id="chord1" class="chordBox"></div>
@@ -829,44 +872,69 @@
 
   <!-- SCALE DISPLAY -->
   <div id="scaleDisplay">
+
     <div id="oddDegreeRow">
       <div class="scaleBox">
         <div id="degree1" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree3" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree5" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree7" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
     </div><!-- end #oddDegreeRow -->
+
     <div id="evenDegreeRow">
       <div class="scaleBox">
         <div id="degree2" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree4" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree6" class="degreeBox"></div>
-        <i class="icon-wrench tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-music icon-white chordChartIcon"></i>
       </div>
     </div><!-- even #oddDegreeRow -->
+
   </div><!-- end #scaleDisplay -->
+
+  <!-- CHORD CHART MODAL -->
+  <div id="chordChartModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="chordChartTitle" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 id="chordChartTitle"></h3>
+    </div>
+    <div class="modal-body">
+      <img id="chordChartImage" src="" title="" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div>
 
   <!-- RANDOM CHORD BUTTON -->
   <button id="randomButton" class="btn btn-large btn-inverse">I'm Feeling Lucky</button>
 
 </div><!-- end #content -->
+
 <div id="gradient"></div>
 
 <!-- FOOTER -->
