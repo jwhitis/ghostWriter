@@ -14,7 +14,9 @@
   <link href="css/styles.css" type="text/css" rel="stylesheet" />
 
   <!-- js files -->
+<!-- 
   <script src="backlift-reloader.js"></script>
+ -->
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
 
@@ -744,8 +746,7 @@
         // fill variable with contents of chord box
         var chordName = $(this).text();
 
-        // fill variable with file name of audio clip
-        var fileName = chordName.replace(/\s/g, "") + ".wav";
+        var fileName = findFileName(chordName);
 
         // add file name to playlist array
         if (fileName.length !== 0) {
@@ -756,6 +757,39 @@
 
     }; // end updatePlaylist function
 
+// **************** find file name ***************
+
+    function findFileName(chordName) {
+
+      // fill variable with scale degree by removing tonality designation
+      var degree = chordName.slice(0, 2).replace(/\s/g, "");
+
+      // fill variable with tonality designation by removing scale degree
+      var tonality = chordName.slice(2).replace(/\s/g, "");
+
+      // fill variable with chromatic scale array
+      var chromaticScale = scale.findChromaticScale(degree);
+
+      // fill variable with accidental of scale degree
+      var accidental = degree.slice(1);
+
+      // determine if scale degree is sharp; browsers ignore anything after
+      // a pound sign in a URL, so sharp scale degrees are converted to
+      // equivalent flat scale degrees
+      if (accidental == "#") {
+
+        // fill degree variable with equivalent flat scale degree
+        degree = chromaticScale[1] + "b";
+
+      }; // end if statement
+
+      // fill variable with file name of audio clip
+      var fileName = degree + tonality;
+
+      return fileName;
+
+    }; // end findFileName function
+
 // **************** play audio clip ***************
 
     function playAudio() {
@@ -764,7 +798,7 @@
       var nowPlaying = playlist.shift();
 
       // replace source attribute of audio element with file name
-      $("#audioClip").attr("src", "audio/" + nowPlaying);
+      $("#audioClip").attr("src", "audio/" + nowPlaying + ".mp3");
 
       // fill variable with audio element
       var audioClip = document.getElementById("audioClip");
@@ -801,15 +835,15 @@
       $("#chordChartTitle").text(chordName);
 
       // fill variable with file name of chord chart image
-      var fileName = chordName.replace(/\s/g, "") + ".png";
+      var fileName = findFileName(chordName);
 
       // replace source attribute of chord chart image with chord name
-      $("#chordChartImage").attr("src", "img/charts/" + fileName);
+      $("#chordChartImage").attr("src", "img/charts/" + fileName + ".png");
 
       // show chord chart modal
       $("#chordChartModal").modal('show');
 
-    });
+    }); // end click event
 
 // **************** end script ***************
 

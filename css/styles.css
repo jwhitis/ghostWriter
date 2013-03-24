@@ -7,9 +7,6 @@ div.container {
 /* HEADER */
 
 header {
-  position: fixed;
-  top: 0;
-  z-index: 1030;
   background: #333333; /* Old browsers */
   background: -moz-linear-gradient(top,  #333333 0%, #000000 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#000000)); /* Chrome,Safari4+ */
@@ -36,7 +33,6 @@ h1#title {
 div#content {
   width: 100%;
   overflow: auto;
-  margin-top: 60px;
   background: #000000
     url("../img/carbon.png");
   box-shadow: inset 0 0 40px #000000;
@@ -173,7 +169,6 @@ div#chordChartModal {
   width: 26%;
   left: 37%;
   margin-left: 0;
-  z-index: 9999;
 }
 
 h3#chordChartTitle {
