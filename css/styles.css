@@ -1,7 +1,35 @@
-/* GLOBAL */
+/* PAGE BODY */
 
 div.container {
   max-width: 360px;
+}
+
+i {
+  cursor: pointer;
+}
+
+div.modal {
+  width: 26%;
+  left: 37%;
+  margin-left: 0;
+}
+
+div.modal-header {
+  border-bottom: 1px solid #cccccc;
+  border-radius: 6px 6px 0 0;
+}
+
+div.modal-footer {
+  border-top: 1px solid #cccccc;
+  box-shadow: none;
+}
+
+button.close {
+  opacity: .4;
+}
+
+button.close:hover {
+  opacity: .6;
 }
 
 /* HEADER */
@@ -38,15 +66,8 @@ i#infoIcon {
 
 /* INFO MODAL */
 
-div#infoModal {
-  width: 26%;
-  left: 37%;
-  margin-left: 0;
-}
-
 label[for="skinSelector"] {
-  text-align: center;
-  font-size: 125%;
+  margin-bottom: 10px;
 }
 
 div#skinSelector {
@@ -87,7 +108,17 @@ div#skinSelector {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e79044', endColorstr='#c22a13',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
-/* PAGE CONTENT */
+div#about ul {
+  margin-left: 0;
+  list-style-type: none;
+  text-transform: lowercase;
+}
+
+div#about i {
+  margin-right: 5px;
+}
+
+/* MAIN CONTENT */
 
 div#content {
   width: 100%;
@@ -127,6 +158,10 @@ select.scaleOption {
   color: #333333;
 }
 
+select.scaleOption:hover {
+  color: #cccccc;
+}
+
 /* PROGRESSION DISPLAY */
 
 div#progressionDisplay {
@@ -145,6 +180,12 @@ div#audioBox {
   border-radius: 50%;
   box-shadow: 0 2px 2px 0 #000000;
   cursor: pointer;
+}
+
+div#audioBox:active {
+  margin-bottom: 1px;
+  border: none;
+  box-shadow: inset 0 0 2px 2px #000000;
 }
 
 img#playButton {
@@ -171,7 +212,17 @@ div.chordBox {
   font-weight: bold;
   text-transform: capitalize;
   color: #333333;
-  cursor: pointer;
+}
+
+div#progressionDisplay .delete {
+  background: #fe9090; /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  #fe9090 45%, #ff5c5c 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(45%,#fe9090), color-stop(100%,#ff5c5c)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg,  #fe9090 45%,#ff5c5c 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-45deg,  #fe9090 45%,#ff5c5c 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-45deg,  #fe9090 45%,#ff5c5c 100%); /* IE10+ */
+  background: linear-gradient(135deg,  #fe9090 45%,#ff5c5c 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fe9090', endColorstr='#ff5c5c',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 /* SCALE DISPLAY */
@@ -182,16 +233,16 @@ div#scaleDisplay {
   margin: 20px 5% 0 5%;
 }
 
-div.scaleBox {
-  width: 19%;
-  margin-left: 8%;
-  float: left;
-}
-
 div#oddDegreeRow, div#evenDegreeRow {
   width: 100%;
   overflow: auto;
   padding: 7px 0;
+}
+
+div.scaleBox {
+  width: 19%;
+  margin-left: 8%;
+  float: left;
 }
 
 div#oddDegreeRow div.scaleBox:first-child {
@@ -216,11 +267,22 @@ div.degreeBox {
   cursor: pointer;
 }
 
-i {
-  cursor: pointer;
+div.degreeBox:hover {
+  color: #cccccc;
+}
+
+div.degreeBox:active {
+  margin-bottom: 1px;
+  border: none;
+  box-shadow: inset 0 0 2px 2px #000000;
+}
+
+i.tonalityToggle {
+  margin: -2px 0 0 0;
 }
 
 i.chordChartIcon {
+  margin: 0 2px 0 0;
   float: right;
 }
 
@@ -231,19 +293,13 @@ button#randomButton {
 
 /* CHORD CHART MODAL */
 
-div#chordChartModal {
-  width: 26%;
-  left: 37%;
-  margin-left: 0;
-}
-
 h3#chordChartTitle {
   text-transform: capitalize;
 }
 
 /* FOOTER */
 
-div#gradient {
+div#footerGradient {
   height: 60px;
   background: -moz-linear-gradient(top,  rgba(0,0,0,1) 0%, rgba(51,51,51,1) 30%, rgba(204,204,204,1) 70%, rgba(255,255,255,0) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,1)), color-stop(30%,rgba(51,51,51,1)), color-stop(70%,rgba(204,204,204,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */

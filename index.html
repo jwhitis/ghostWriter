@@ -159,6 +159,34 @@
 
     }; // end findRelativeMajor method
 
+    scale.findFlatSeven = function(degree) {
+
+      // fill variable with chromatic scale array
+      var chromaticScale = scale.findChromaticScale(degree);
+
+      // fill variable with scale degree transposed one half step down
+      var transposition = chromaticScale[11];
+
+      // fill variable with accidental of transposed degree
+      var accidental = transposition.slice(1);
+
+      // determine if transposed degree is sharp
+      if (accidental == "#") {
+
+        // fill variable with flatted scale degree
+        var flatSeven = degree + "b";
+
+      } else {
+
+        // fill variable with transposed scale degree
+        var flatSeven = transposition;
+
+      }; // end if statement
+
+      return flatSeven;
+
+    }; // end transposeDown method
+
 // **************** chord positions array ***************
 
     var chordPositions = [
@@ -173,7 +201,7 @@
           {name: "4", tonality: "major", probability: .18},
           {name: "5", tonality: "major", probability: .16},
           {name: "6", tonality: "minor", probability: .14},
-          {name: "7", tonality: "flat", probability: .01},
+          {name: "7", tonality: "major", probability: .01},
           {name: "7", tonality: "dim", probability: .002}
         ]
       },
@@ -189,7 +217,7 @@
           {name: "4", tonality: "major", probability: .21},
           {name: "5", tonality: "major", probability: .31},
           {name: "6", tonality: "minor", probability: .09},
-          {name: "7", tonality: "flat", probability: .02},
+          {name: "7", tonality: "major", probability: .02},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -205,7 +233,7 @@
           {name: "4", tonality: "major", probability: .28},
           {name: "5", tonality: "major", probability: .18},
           {name: "6", tonality: "minor", probability: .13},
-          {name: "7", tonality: "flat", probability: 0},
+          {name: "7", tonality: "major", probability: 0},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -221,7 +249,7 @@
           {name: "4", tonality: "major", probability: .17},
           {name: "5", tonality: "major", probability: .25},
           {name: "6", tonality: "minor", probability: .1},
-          {name: "7", tonality: "flat", probability: 0},
+          {name: "7", tonality: "major", probability: 0},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -237,7 +265,7 @@
           {name: "4", tonality: "major", probability: .37},
           {name: "5", tonality: "major", probability: .01},
           {name: "6", tonality: "minor", probability: .41},
-          {name: "7", tonality: "flat", probability: 0},
+          {name: "7", tonality: "major", probability: 0},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -253,7 +281,7 @@
           {name: "4", tonality: "major", probability: .33},
           {name: "5", tonality: "major", probability: .04},
           {name: "6", tonality: "minor", probability: .41},
-          {name: "7", tonality: "flat", probability: 0},
+          {name: "7", tonality: "major", probability: 0},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -269,7 +297,7 @@
           {name: "4", tonality: "major", probability: 0},
           {name: "5", tonality: "major", probability: .27},
           {name: "6", tonality: "minor", probability: .09},
-          {name: "7", tonality: "flat", probability: .01},
+          {name: "7", tonality: "major", probability: .01},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -285,7 +313,7 @@
           {name: "4", tonality: "major", probability: .22},
           {name: "5", tonality: "major", probability: 0},
           {name: "6", tonality: "minor", probability: .26},
-          {name: "7", tonality: "flat", probability: .01},
+          {name: "7", tonality: "major", probability: .01},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -301,13 +329,13 @@
           {name: "4", tonality: "major", probability: .32},
           {name: "5", tonality: "major", probability: .25},
           {name: "6", tonality: "minor", probability: 0},
-          {name: "7", tonality: "flat", probability: .02},
+          {name: "7", tonality: "major", probability: .02},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
       {
         name: "7",
-        tonality: "flat",
+        tonality: "major",
         nextProbability: [
           {name: "1", tonality: "major", probability: .15},
           {name: "2", tonality: "major", probability: 0},
@@ -317,7 +345,7 @@
           {name: "4", tonality: "major", probability: .25},
           {name: "5", tonality: "major", probability: .04},
           {name: "6", tonality: "minor", probability: .18},
-          {name: "7", tonality: "flat", probability: 0},
+          {name: "7", tonality: "major", probability: 0},
           {name: "7", tonality: "dim", probability: 0}
         ]
       },
@@ -333,7 +361,7 @@
           {name: "4", tonality: "major", probability: 0},
           {name: "5", tonality: "major", probability: 0},
           {name: "6", tonality: "minor", probability: .73},
-          {name: "7", tonality: "flat", probability: 0},
+          {name: "7", tonality: "major", probability: 0},
           {name: "7", tonality: "dim", probability: 0}
         ]
       }
@@ -347,6 +375,9 @@
     // write scale to page
     writeScale();
 
+    // show tonality toggle icons
+    showTonalityToggles();
+
 // **************** update scale on select box change ***************
 
     // change event on key select box
@@ -357,6 +388,9 @@
 
       // write scale to page
       writeScale();
+
+      // show tonality toggle icons
+      showTonalityToggles();
 
     }); // end change event
 
@@ -406,18 +440,24 @@
       // fill variable with selected scale array
       var userScale = findScaleFromSelection();
 
-      // loop through degrees of user scale array
+      // loop through degrees in user scale array
       for (var i = 0; i < userScale.length; i++) {
 
-        // fill variable with existing tonality class
+        // fill variable with correct tonality designation
         if ($("#degree" + (i + 1)).hasClass("major")) {
           var tonality = "Major";
         } else if ($("#degree" + (i + 1)).hasClass("minor")) {
           var tonality = "Minor";
+        } else if ($("#degree" + (i + 1)).hasClass("flat")) {
+
+          // replace current scale degree with flat seven scale degree
+          userScale[i] = scale.findFlatSeven(userScale[i]);
+
+          // fill variable with major tonality class
+          var tonality = "Major";
+
         } else if ($("#degree" + (i + 1)).hasClass("dim")) {
           var tonality = "Dim";
-        } else {
-          var tonality = "Flat";
         };
 
         // write chord name to scale display box; overwrites
@@ -446,6 +486,25 @@
       return userScale;
 
     }; // end findScaleFromSelection function
+
+// **************** show tonality toggle icons ***************
+
+    function showTonalityToggles(tonality) {
+
+      // hide all tonality toggle icons
+      $(".tonalityToggle").hide();
+
+      // fill variable with value of tonality select box
+      var tonality = $("#tonalitySelect").val();
+
+      // show correct tonality toggle icons for scale
+      if (tonality == "major") {
+        $(".majorToggle").show();
+      } else if (tonality == "minor") {
+        $(".minorToggle").show();
+      };
+
+    }; // end showTonalityToggles
 
 // **************** toggle tonality of scale degrees ***************
 
@@ -494,6 +553,25 @@
 
     }); // end click event
 
+// **************** change chord box appearance on hover ***************
+
+    // hover event on chord boxes
+    $(".chordBox").hover(
+
+      // if chord box has contents, change cursor type and background gradient
+      function () {
+        if ($(this).text() !== "") {
+          $(this).css("cursor", "pointer").addClass("delete");
+        };
+      },
+
+      // revert cursor type and background gradient
+      function () {
+        $(this).css("cursor", "default").removeClass("delete");
+      }
+
+    ); // end hover event
+
 // **************** remove chord from progression array ***************
 
     // click event on progression display boxes
@@ -507,6 +585,11 @@
 
       // write progression to page
       writeProgression();
+
+      // revert cursor type and background gradient
+      if ($(this).text() == "") {
+        $(this).css("cursor", "default").removeClass("delete");
+      };
 
     }); // end click event
 
@@ -608,6 +691,11 @@
           // fill variable with tonality of random chord
           var randomTonality = nextProbability[i].tonality;
 
+          // if chord is flat seven, replace random degree with flat seven degree
+          if (randomPosition == 7 && randomTonality == "major") {
+            randomDegree = scale.findFlatSeven(randomDegree);
+          };
+
           // fill variable with chord name by combining scale degree and tonality
           var randomChord = randomDegree + " " + randomTonality;
 
@@ -643,6 +731,12 @@
           if (degree == userScale[i]) {
             var position = i + 1;
           };
+        };
+
+        // if no matches are found, then previous chord
+        // is flat seven, and position is set to 7
+        if (!position) {
+          var position = 7;
         };
 
       }; // end if statement
@@ -710,6 +804,17 @@
       };
 
     }; // end writeProgression function
+
+// **************** change play button appearance on hover ***************
+
+    // replace play button image source on hover
+    $("#playButton").hover(
+      function () {
+        $(this).attr("src", "img/inverted_play.png");
+      }, function () {
+        $(this).attr("src", "img/play.png");
+      }
+    );
 
 // **************** activate play audio button ***************
 
@@ -808,9 +913,18 @@
 
     }; // end playAudio function
 
+// **************** initialize scale options popovers ***************
+
+    // scale options information
+    $("label").popover({
+      html: true,
+      placement: "bottom",
+      trigger: "hover"
+    });
+
 // **************** initialize information modal ***************
 
-    // set chord chart modal options
+    // set information modal options
     $("#infoModal").modal({
       backdrop: false,
       show: false
@@ -836,29 +950,6 @@
       $(".skinElement").addClass(skin);
 
     }); // end click event
-
-// **************** initialize scale options popovers ***************
-
-    // scale options information
-    $("label").popover({
-      html: true,
-      placement: "bottom",
-      trigger: "hover"
-    });
-
-// **************** animate scale degree buttons ***************
-
-    // $(".degreeBox").mousedown(function() {
-    //   $(this).animate({
-    //     "marginTop": "2px",
-    //   }, 50);
-    // });
-
-    // $(".degreeBox").mouseup(function() {
-    //   $(this).animate({
-    //     "marginTop": "0",
-    //   }, 50);
-    // });
 
 // **************** initialize chord chart modal ***************
 
@@ -907,27 +998,60 @@
 
 <!-- INFORMATION MODAL -->
 <div id="infoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="infoTitle" aria-hidden="true">
-  <div class="modal-header">
+  <div class="modal-header skinElement blueSkin">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="infoTitle">Information &amp; Settings</h3>
+    <h3 id="infoTitle">Tips &amp; Tricks</h3>
   </div>
   <div class="modal-body">
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#controls" data-toggle="tab">Controls</a></li>
+        <li><a href="#appearance" data-toggle="tab">Appearance</a></li>
+        <li><a href="#about" data-toggle="tab">About</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="controls" class="tab-pane active">
 
-    <!-- SKIN SELECTOR -->
-    <label for="skinSelector">
-      Choose a skin:
-    </label>
-    <div id="skinSelector" class="btn-group" data-toggle="buttons-radio">
-      <button data-skin="blueSkin" type="button" class="btn btn-large blueSkin">Blue</button>
-      <button data-skin="greenSkin" type="button" class="btn btn-large greenSkin">Green</button>
-      <button data-skin="orangeSkin" type="button" class="btn btn-large orangeSkin">Orange</button>
+          <!-- INSTRUCTIONS -->
+          <p>To use Ghost Writer, select a key and tonality at the top of the page. Next, click on the chord buttons in the middle of the page to <strong>add</strong> chords to your progression. Or, click "I'm Feeling Lucky", and Ghost Writer will pick chords for you. To <strong>delete</strong> a chord from your progression, simply click on that chord. Lastly, click the play button on the left side of the page to <strong>hear</strong> the chords you've selected.</p>
+          <p>Click the <i class="icon-wrench"></i> symbol next to some chord buttons to access additional options for that chord.</p>
+          <p>Click the <i class="icon-music"></i> symbol next to the chord buttons to see a guitar fingering chart for that chord.</p>
+
+        </div><!-- end #controls -->
+        <div id="appearance" class="tab-pane">
+
+          <!-- SKIN SELECTOR -->
+          <label for="skinSelector">
+            Change the appearance of Ghost Writer by choosing a skin:
+          </label>
+          <div id="skinSelector" class="btn-group" data-toggle="buttons-radio">
+            <button data-skin="blueSkin" type="button" class="btn btn-large blueSkin">Blue</button>
+            <button data-skin="greenSkin" type="button" class="btn btn-large greenSkin">Green</button>
+            <button data-skin="orangeSkin" type="button" class="btn btn-large orangeSkin">Orange</button>
+          </div>
+
+        </div><!-- end #appearance -->
+        <div id="about"class="tab-pane">
+
+          <!-- CREDITS -->
+          <p>Ghost Writer is a tool for both aspiring and experienced songwriters. Here are just a few of the ways that you can use it to improve your craft:</p>
+          <ul>
+            <li><i class="icon-star"></i>Play back chord progressions when you're on the go and don't have a guitar handy</li>
+            <li><i class="icon-star"></i>Fix that one chord in a progression that just doesn't seem to fit</li>
+            <li><i class="icon-star"></i>Break out of a songwriting rut by trying chord progressions that you may not have used before</li>
+            <li><i class="icon-star"></i>Learn how to play the most widely used chords in popular music</li>
+          </ul>
+          <p>Ghost Writer uses probability statistics from a research study conducted by the good folks at <a href="http://www.hooktheory.com" title="A link to the HookTheory website.">HookTheory</a>. Check out their website for a thorough explanation of the thought process behind their study.</p>
+          <p>Additional thanks to <a href="https://github.com/shaynarang" title="A link to Shay Narang's GitHub page.">Shay Narang</a> for lending his guitar playing skills and creative feedback to the production of Ghost Writer.</p>
+
+        </div><!-- end #about -->
+      </div>
     </div>
-
   </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  <div class="modal-footer skinElement blueSkin">
+    <button class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">Close</button>
   </div>
-</div>
+</div><!-- end #infoModal -->
 
 <!-- PAGE CONTENT -->
 <div id="content">
@@ -983,17 +1107,17 @@
       </div>
       <div class="scaleBox">
         <div id="degree3" class="degreeBox skinElement blueSkin"></div>
-        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle majorToggle"></i>
         <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree5" class="degreeBox skinElement blueSkin"></div>
-        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle minorToggle"></i>
         <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree7" class="degreeBox skinElement blueSkin"></div>
-        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle majorToggle"></i>
         <i class="icon-music icon-white chordChartIcon"></i>
       </div>
     </div><!-- end #oddDegreeRow -->
@@ -1001,12 +1125,12 @@
     <div id="evenDegreeRow">
       <div class="scaleBox">
         <div id="degree2" class="degreeBox skinElement blueSkin"></div>
-        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle majorToggle minorToggle"></i>
         <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
         <div id="degree4" class="degreeBox skinElement blueSkin"></div>
-        <i class="icon-wrench icon-white tonalityToggle"></i>
+        <i class="icon-wrench icon-white tonalityToggle minorToggle"></i>
         <i class="icon-music icon-white chordChartIcon"></i>
       </div>
       <div class="scaleBox">
@@ -1020,15 +1144,15 @@
 
   <!-- CHORD CHART MODAL -->
   <div id="chordChartModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="chordChartTitle" aria-hidden="true">
-    <div class="modal-header">
+    <div class="modal-header skinElement blueSkin">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       <h3 id="chordChartTitle"></h3>
     </div>
     <div class="modal-body">
       <img id="chordChartImage" src="" title="" />
     </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <div class="modal-footer skinElement blueSkin">
+      <button class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">Close</button>
     </div>
   </div>
 
@@ -1037,7 +1161,7 @@
 
 </div><!-- end #content -->
 
-<div id="gradient"></div>
+<div id="footerGradient"></div>
 
 <!-- FOOTER -->
 <footer>
