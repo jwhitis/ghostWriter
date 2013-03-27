@@ -21,6 +21,6 @@ Design and implement the user interface:
   <li>create a site layout using Bootstrap that is responsive, but optimised for mobile users</li>
   <li>create popovers that display fingering charts for each chord in the progression</li>
   <li>toggle the color of each scale degree based on its current tonality status</li>
-  <li>create additional design elements that improve the appearnace and usability of the interface</li>
+  <li>create additional design elements that improve the appearance and usability of the interface</li>
 </ul>
-*Phase 2 is in progress.*
+*Phase 2 is complete.*
