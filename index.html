@@ -9,16 +9,14 @@
 
   <!-- csss files -->
   <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-  <link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
   <link href="http://fonts.googleapis.com/css?family=Rokkitt" type="text/css" rel="stylesheet" />
   <link href="css/styles.css" type="text/css" rel="stylesheet" />
 
   <!-- js files -->
-<!-- 
   <script src="backlift-reloader.js"></script>
- -->
-  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/jquery-1.9.1.min.js"></script>  
   <script src="js/bootstrap.min.js"></script>
+
 
   <script type="text/javascript">
   $(document).ready(function() {
@@ -593,6 +591,21 @@
 
     }); // end click event
 
+// **************** write progression to page ***************
+
+    function writeProgression() {
+
+      // clear contents of progression display; needed to remove
+      // chords that have been deleted from progression display
+      $(".chordBox").text("");
+
+      // write chord name to progression display
+      for (var i = 0; i < progression.length; i++) {
+        $("#chord" + (i + 1)).text(progression[i]);
+      };
+
+    }; // end writeProgression function
+
 // **************** activate random chord button ***************
 
     // click event on generate random chord button
@@ -789,21 +802,6 @@
       return userScale;
 
     }; // end findMajorScaleFromSelection function
-
-// **************** write progression to page ***************
-
-    function writeProgression() {
-
-      // clear contents of progression display; needed to remove
-      // chords that have been deleted from progression display
-      $(".chordBox").text("");
-
-      // write chord name to progression display
-      for (var i = 0; i < progression.length; i++) {
-        $("#chord" + (i + 1)).text(progression[i]);
-      };
-
-    }; // end writeProgression function
 
 // **************** change play button appearance on hover ***************
 
@@ -1025,9 +1023,9 @@
             Change the appearance of Ghost Writer by choosing a skin:
           </label>
           <div id="skinSelector" class="btn-group" data-toggle="buttons-radio">
-            <button data-skin="blueSkin" type="button" class="btn btn-large blueSkin">Blue</button>
-            <button data-skin="greenSkin" type="button" class="btn btn-large greenSkin">Green</button>
-            <button data-skin="orangeSkin" type="button" class="btn btn-large orangeSkin">Orange</button>
+            <button data-skin="blueSkin" type="button" class="btn btn-large blueSkin">Aqua</button>
+            <button data-skin="greenSkin" type="button" class="btn btn-large greenSkin">Kiwi</button>
+            <button data-skin="orangeSkin" type="button" class="btn btn-large orangeSkin">Ember</button>
           </div>
 
         </div><!-- end #appearance -->
